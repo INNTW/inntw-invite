@@ -1,0 +1,1342 @@
+@import "tailwindcss";
+
+/* ----------  INNTW design tokens  ----------
+   Mirrors design-tokens.css from the handoff bundle. */
+:root {
+  --c-white: #ffffff;
+  --c-black: #000000;
+  --c-cobalt: #024fda;
+  --c-warm-neutral: #dad3c8;
+  --c-warm-200: #c9c0b2;
+  --c-warm-50: #f4f0ea;
+  --c-brown-300: #b89486;
+  --c-ink-900: #0a0a0a;
+
+  --font-sans: "Helvetica Neue", "Helvetica", "Arial", "Liberation Sans",
+    sans-serif;
+
+  --gutter: clamp(20px, 4vw, 64px);
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 480ms;
+}
+
+@theme inline {
+  --color-cobalt: var(--c-cobalt);
+  --color-warm-neutral: var(--c-warm-neutral);
+  --color-ink-900: var(--c-ink-900);
+  /* Override Tailwind's default --font-sans with our Helvetica stack. */
+  --font-sans:
+    "Helvetica Neue", "Helvetica", "Arial", "Liberation Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+  background: var(--c-cobalt);
+  color: var(--c-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+input,
+button,
+textarea {
+  font-family: inherit;
+}
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* ---------- canvas ---------- */
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 88% 70%,
+      rgba(255, 255, 255, 0.1),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(255, 255, 255, 0.06),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #024fda 0%, #034bd0 55%, #023fb4 100%);
+}
+
+/* Subtle cloud effect — matches the photographic sky from the mockup */
+.sky {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    radial-gradient(
+      ellipse 800px 360px at 100% 50%,
+      rgba(255, 255, 255, 0.18),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 500px 240px at 92% 38%,
+      rgba(255, 255, 255, 0.1),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 600px 220px at 85% 78%,
+      rgba(255, 255, 255, 0.07),
+      transparent 70%
+    );
+  mix-blend-mode: screen;
+}
+
+.hairline {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.28);
+  margin: 0 var(--gutter);
+}
+
+.muted {
+  color: rgba(255, 255, 255, 0.62);
+}
+.white {
+  color: #fff;
+}
+
+/* ---------- logo ---------- */
+
+.logo-stamp {
+  width: 64px;
+  height: 64px;
+  filter: invert(1) brightness(2);
+  user-select: none;
+}
+
+/* ---------- type ---------- */
+
+.t-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1;
+}
+
+/* ---------- LANDING ---------- */
+
+.page--landing {
+  position: relative;
+  z-index: 1;
+  /* Tightened to fit the whole landing inside a single viewport on a 900px
+     desktop and a typical mobile. Footer is removed in the markup. */
+  padding: 20px var(--gutter) 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+}
+.top-bar__logo {
+  display: inline-flex;
+}
+.top-bar__brand {
+  display: flex;
+  align-items: center;
+}
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  /* Left-aligned so "DOORS OPEN IN" sits flush with the "11 DAYS" column
+     (the first unit in the row) rather than centered/right over the whole
+     row. The container itself still lives on the right side of the header
+     via the parent grid. */
+  align-items: flex-start;
+  gap: 10px;
+}
+.countdown__eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.countdown__row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.cu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  position: relative;
+  min-width: 56px;
+}
+.cu + .cu::before {
+  content: "";
+  position: absolute;
+  left: -14px;
+  top: 4px;
+  bottom: 14px;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.cu__value {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cu__label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  opacity: 0.75;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.landing-main {
+  /* Doubled top padding (28→56) gives the headline more air below the
+     countdown divider. */
+  padding: 56px 0 16px;
+  max-width: 1100px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Top-aligned so the headline hugs the header divider and the description
+     sits right beneath it (instead of floating in the middle of the page). */
+  justify-content: flex-start;
+}
+
+.landing-display {
+  /* Sized so "IF NOT NOW" (the longer of the two lines) fits on one row
+     across the responsive range. The vw rate is tuned to ~10 characters
+     of room; bumping it higher causes individual lines to wrap before
+     the explicit <br />. */
+  font-size: clamp(64px, 10.4vw, 184px);
+  font-weight: 800;
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  /* Tight gap to "The Grand Opening." so the eyebrow attaches to the
+     headline. The bigger air sits BELOW the first sub-paragraph instead
+     (see .landing-sub p:first-child below). */
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  /* Prevent the auto-wrap from kicking in mid-line; we rely on the
+     explicit <br /> in the markup to separate "IF NOT NOW" from "THEN WHEN". */
+  white-space: nowrap;
+}
+
+.landing-sub p {
+  margin: 0;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+/* "The Grand Opening." reads as an eyebrow attached to the headline above.
+   Add a clear air gap before "The first time this dream..." so the long
+   description block visually separates from it. */
+.landing-sub p:first-child {
+  margin-bottom: 32px;
+}
+.landing-sub p + p {
+  margin-top: 2px;
+}
+.landing-sub {
+  margin-bottom: 28px;
+  max-width: 880px;
+}
+
+.cta-primary {
+  width: 100%;
+  max-width: 880px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  border: 0;
+  background: #fff;
+  color: var(--c-cobalt);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border-radius: 0;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.cta-primary:hover {
+  background: #f4f0ea;
+}
+.cta-primary:active {
+  background: #dad3c8;
+}
+
+/* Tight caption directly under the CTA — visually grouped with "Step Into
+   The Dream", not in the bottom meta block. */
+.cta-caption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.landing-meta {
+  margin-top: 18px;
+  max-width: 720px;
+}
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.meta-row + .meta-row {
+  margin-top: 12px;
+}
+.meta-blurb {
+  margin: 8px 0 0 30px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+}
+
+.landing-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0 4px;
+}
+
+/* ---------- BOOKING SHELL ---------- */
+
+.page--booking {
+  position: relative;
+  z-index: 1;
+  /* Tightened so the slot picker, details, and confirmed pages each fit
+     in a typical desktop viewport without scrolling. */
+  padding: 16px var(--gutter);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.booking-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+.booking-top__logo .logo-stamp {
+  width: 40px;
+  height: 40px;
+}
+.booking-top__brand {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.booking-top__doors {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.booking-main {
+  padding: 18px 0 12px;
+  flex: 1;
+  /* Lay out head + frame as a column so the frame can absorb leftover
+     viewport space without dictating the page's total height. */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.booking-head {
+  margin-bottom: 16px;
+}
+.booking-title {
+  margin: 0 0 6px;
+  /* Capped so "Reserve Your Spot" / "You're in." fits on one line at
+     desktop widths without crowding the page. */
+  font-size: clamp(40px, 5.4vw, 72px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 0.96;
+  color: var(--c-warm-neutral);
+  white-space: nowrap;
+}
+.booking-subtitle {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.86);
+  max-width: 640px;
+}
+
+.booking-frame {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 40px;
+  padding: 28px 32px 32px;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+}
+
+/* ---------- aside ---------- */
+
+.booking-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.link-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: opacity var(--dur-fast) var(--ease-out);
+  text-decoration: none;
+}
+.link-back:hover {
+  opacity: 0.7;
+}
+
+.selected-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.selected-time {
+  margin-top: 4px;
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--c-warm-neutral);
+  font-variant-numeric: tabular-nums;
+}
+.selected-time--empty {
+  color: rgba(255, 255, 255, 0.35);
+}
+.selected-empty-note {
+  margin-top: 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.selected-date {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.cta-cream {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--c-warm-neutral);
+  color: var(--c-ink-900);
+  border: 0;
+  height: 48px;
+  padding: 0 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: background var(--dur-base) var(--ease-out);
+}
+.cta-cream:hover:not(:disabled) {
+  background: #c9c0b2;
+}
+.cta-cream:active:not(:disabled) {
+  background: #b89486;
+}
+.cta-cream--block {
+  width: 100%;
+  align-self: stretch;
+  height: 56px;
+}
+
+.cta-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  height: 48px;
+  padding: 0 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+.cta-outline:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #fff;
+}
+
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: gap var(--dur-base) var(--ease-out);
+}
+.cta-ghost:hover {
+  gap: 16px;
+}
+
+.aside-note {
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.aside-note p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 320px;
+}
+
+.aside-card {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.aside-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.88);
+}
+.aside-card--soft {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+/* Mobile-only trailing cards block — sits at the bottom of the details
+   page (after the submit button). Hidden on desktop where the cards live
+   inside the aside. */
+.aside-extras {
+  display: none;
+}
+.aside-card ul {
+  margin: 0;
+  padding-left: 16px;
+}
+.aside-card li {
+  font-size: 12px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+  margin-bottom: 4px;
+}
+
+/* ---------- slot grid ---------- */
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  align-content: start;
+}
+
+.slot-card {
+  position: relative;
+  text-align: left;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  /* Bumped ~25% from 16/18 → 22 to give the cards more presence. */
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+.slot-card:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.slot-card.is-selected {
+  background: var(--c-warm-neutral);
+  border-color: var(--c-warm-neutral);
+  color: var(--c-ink-900);
+}
+
+.slot-card__label {
+  /* ~25% larger so the cards read with more visual weight. */
+  font-size: clamp(18px, 1.5vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  white-space: nowrap;
+}
+
+.slot-card__bar {
+  position: relative;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+}
+.slot-card.is-selected .slot-card__bar {
+  background: rgba(2, 79, 218, 0.2);
+}
+.slot-card__bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: #fff;
+}
+.slot-card.is-selected .slot-card__bar-fill {
+  background: var(--c-cobalt);
+}
+
+.slot-card__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.slot-card__meta .muted {
+  color: rgba(255, 255, 255, 0.55);
+}
+.slot-card.is-selected .slot-card__meta .muted {
+  color: rgba(10, 10, 10, 0.45);
+}
+
+.slot-radio {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.slot-radio__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: transparent;
+  transition: all var(--dur-base) var(--ease-out);
+}
+.slot-radio.is-on {
+  background: var(--c-cobalt);
+  border-color: var(--c-cobalt);
+}
+.slot-radio.is-on .slot-radio__dot {
+  background: var(--c-warm-neutral);
+}
+.slot-card.is-selected .slot-radio {
+  background: var(--c-cobalt);
+  border-color: var(--c-cobalt);
+}
+.slot-card.is-selected .slot-radio__dot {
+  background: var(--c-warm-neutral);
+}
+
+/* ---------- details form ---------- */
+
+.form-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-head p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.4;
+}
+
+.form-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.form-row--two {
+  grid-template-columns: 1fr 1fr;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field__label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.field__input {
+  height: 44px;
+  background: var(--c-warm-neutral);
+  border: 0;
+  border-radius: 0;
+  padding: 0 14px;
+  color: var(--c-ink-900);
+  font-size: 15px;
+  font-weight: 500;
+  outline: none;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out);
+}
+.field__input::placeholder {
+  color: rgba(10, 10, 10, 0.4);
+}
+.field__input:hover {
+  background: #e1dad0;
+}
+.field__input:focus {
+  background: #f4f0ea;
+  box-shadow: inset 0 0 0 2px var(--c-ink-900);
+}
+
+.check-row {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.4;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+}
+.check-box {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.78);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--c-cobalt);
+  transition: all var(--dur-base) var(--ease-out);
+}
+.check-box.is-on {
+  background: var(--c-warm-neutral);
+  border-color: var(--c-warm-neutral);
+}
+
+.form-foot {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.06em;
+}
+
+/* Indents a check-row so its checkbox lines up with the checkboxes inside
+   the .opt-grid bordered container below. Used for the mandatory consent
+   row that sits *outside* the bordered container but should visually
+   align with the rows inside it. */
+.check-row-indent {
+  padding-left: 14px;
+}
+
+/* ---------- pin offer + optional opt-ins (details page) ---------- */
+
+/* One bordered container that wraps both the optional checkboxes and the
+   pin offer so they read as a single "free pin" promo element.
+   Desktop: 2 columns (checkboxes left, pin right).
+   Mobile: stacks vertically. */
+.opt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+}
+.opt-grid__checks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.pin-offer {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 14px;
+  align-items: center;
+}
+.pin-offer__image {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  display: block;
+}
+.pin-offer__note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.92);
+}
+.pin-offer__note em {
+  color: var(--c-warm-neutral);
+  font-style: italic;
+}
+
+/* Locked check row — visually a checkbox, but pre-checked and disabled.
+   Used for the "this is mandatory" event-emails opt-in. */
+.check-row--locked {
+  cursor: default;
+}
+.check-row--locked:hover {
+  cursor: default;
+}
+.check-row__hint {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  margin-left: 4px;
+}
+
+@media (max-width: 720px) {
+  /* Stack on mobile — checkboxes first, then the pin offer below. */
+  .opt-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .pin-offer {
+    grid-template-columns: 64px 1fr;
+    gap: 12px;
+  }
+  .pin-offer__image {
+    width: 64px;
+    height: 64px;
+  }
+  .pin-offer__note {
+    font-size: 12px;
+  }
+}
+
+/* ---------- confirmation ---------- */
+
+.booking-frame--confirmed {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.booking-aside--confirmed {
+  gap: 18px;
+}
+
+.stamp-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.stamp-mark .logo-stamp {
+  width: 60px;
+  height: 60px;
+}
+.stamp-mark__cap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--c-warm-neutral);
+  color: var(--c-warm-neutral);
+  letter-spacing: 0.28em;
+}
+.stamp-mark__cap::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--c-warm-neutral);
+}
+
+.conf-time {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.conf-time__range {
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.75);
+  letter-spacing: 0.2em;
+  font-size: 11px;
+}
+
+.conf-code {
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.conf-code__value {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--c-warm-neutral);
+  font-variant-numeric: tabular-nums;
+}
+.conf-code__hint {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.conf-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.conf-greeting {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.conf-line {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--c-warm-neutral);
+}
+.conf-line--muted {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.84);
+  letter-spacing: 0;
+  max-width: 540px;
+}
+
+.conf-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.conf-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.conf-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.conf-steps li {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 14px;
+  align-items: start;
+}
+.conf-step__num {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--c-warm-neutral);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.conf-steps li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-top: 2px;
+}
+.conf-steps strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.conf-steps span {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.4;
+}
+
+.conf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.conf-actions .cta-cream {
+  flex: 0 0 auto;
+  min-width: 180px;
+}
+.conf-actions .cta-outline {
+  flex: 0 0 auto;
+}
+.conf-actions .cta-ghost {
+  margin-left: auto;
+}
+
+.conf-foot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: end;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+.conf-foot > div p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+}
+.conf-quote {
+  text-align: right;
+}
+.conf-quote p {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-style: italic;
+  color: var(--c-warm-neutral);
+}
+
+/* ---------- footer ---------- */
+
+.booking-foot {
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* fade between routes */
+.step-fade {
+  animation: stepFade 480ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+@keyframes stepFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 1080px) {
+  .booking-frame {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px;
+  }
+  /* Hide the cards that live inside the aside; show the trailing block
+     after the form instead so they appear below "Reserve Your Spot". */
+  .aside-card--desktop {
+    display: none;
+  }
+  .aside-extras {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  /* When the frame stacks, put the slot cards on top — they're the primary
+     action of the page. Aside (with the Confirm Time button) drops below. */
+  .slot-grid {
+    order: -1;
+  }
+  /* Reorder aside contents so "Confirm Time" sits at the bottom of the
+     aside block (which is at the bottom of the page on mobile) — that's
+     where the user's eye lands after picking a card and reading context. */
+  .booking-aside > .link-back {
+    order: 1;
+  }
+  .booking-aside > .aside-note {
+    order: 2;
+  }
+  .booking-aside > .selected-block {
+    order: 3;
+  }
+  .booking-aside > .cta-cream {
+    order: 4;
+  }
+  .conf-foot {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .conf-quote {
+    text-align: left;
+  }
+  .conf-actions .cta-ghost {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  /* Center the logo + countdown stack on mobile (per the design ask). */
+  .page--landing {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .top-bar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 14px;
+  }
+  .top-bar__logo .logo-stamp,
+  .top-bar__logo {
+    margin: 0 auto;
+  }
+  .top-bar__brand {
+    display: none;
+  }
+  .countdown {
+    grid-column: 1 / -1;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+    margin-top: 0;
+    width: 100%;
+  }
+  .countdown__eyebrow {
+    text-align: center;
+  }
+  .countdown__row {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .cu {
+    align-items: center;
+  }
+  .cu + .cu::before {
+    left: -11px;
+  }
+  .cu__value {
+    font-size: 40px;
+  }
+
+  .landing-main {
+    /* More breathing room above the headline. */
+    padding: 48px 0 12px;
+    /* Constrain the left-aligned column on mobile so content doesn't
+       stretch edge-to-edge — ends at ~75% of viewport. Header (logo +
+       countdown) and the hairline divider above main stay full-width.
+       `align-self: flex-start` is required because .landing-main is a
+       column flex item — without it the item stretches across the cross
+       axis and max-width is ignored. */
+    max-width: 75%;
+    align-self: flex-start;
+  }
+  .landing-display {
+    /* Sized so "IF NOT NOW" fits inside the narrower 75% mobile column
+       without wrapping. Tuned to ~6em of room across viewport breakpoints. */
+    font-size: clamp(34px, 10.4vw, 60px);
+    /* Tight gap to "The Grand Opening." so the eyebrow attaches to the
+       headline. The bigger air moves below the first sub-paragraph. */
+    margin-bottom: 10px;
+  }
+  .landing-sub p {
+    font-size: 14px;
+  }
+  /* Big air gap before "The first time…" on mobile so the rest of the
+     description (and the CTA below it) drops down — visually balancing
+     the space between "THE GRAND OPENING." and "STEP INTO THE DREAM". */
+  .landing-sub p:first-child {
+    margin-bottom: 40px;
+  }
+  .landing-sub p + p {
+    margin-top: 10px;
+  }
+  /* Fixed baseline padding above the CTA — combined with the auto margin
+     below, the CTA always has at least 24px of breathing room above. */
+  .landing-sub {
+    margin-bottom: 24px;
+  }
+  .cta-primary {
+    height: 60px;
+    padding: 0 22px;
+    font-size: 13px;
+    /* `margin-top: auto` absorbs half the slack in .landing-main's column
+       flex — together with the matching auto on .landing-meta below, this
+       distributes the empty viewport space ABOVE and BELOW the CTA on
+       tall phones, then collapses cleanly on short ones. */
+    margin-top: auto;
+    /* Fixed baseline padding below the CTA. */
+    margin-bottom: 24px;
+  }
+  .cta-primary svg {
+    width: 18px;
+    height: 18px;
+  }
+  .landing-meta {
+    /* Pairs with .cta-primary margin-top: auto above — pushes meta to the
+       bottom of main so the second half of the slack sits between CTA
+       and the location info. */
+    margin-top: auto;
+  }
+  .meta-row {
+    margin-top: 8px;
+  }
+  .meta-row + .meta-row {
+    margin-top: 10px;
+  }
+  .meta-blurb {
+    margin-top: 6px;
+  }
+
+  /* Mirror the landing top-bar layout on mobile: logo centered up top,
+     countdown row centered below it with a divider line above the
+     countdown. Brand text is hidden — the countdown carries the context. */
+  .booking-top {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 14px;
+    padding-bottom: 12px;
+  }
+  .booking-top__brand {
+    display: none;
+  }
+
+  .booking-title {
+    /* Sized so "Reserve Your Spot" / "You're in." fits on one line down to
+       ~320px wide phones. Held below 8.6vw so the long title doesn't
+       overflow the viewport (its width is ~9em in Helvetica Bold). */
+    font-size: clamp(28px, 8.6vw, 44px);
+  }
+  .booking-subtitle {
+    font-size: 14px;
+  }
+  .booking-frame {
+    padding: 24px 22px 28px;
+    gap: 28px;
+  }
+  .slot-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .slot-card {
+    min-height: 0;
+    padding: 22px;
+    gap: 14px;
+  }
+  .slot-card__label {
+    font-size: 22px;
+  }
+
+  .form-row--two {
+    grid-template-columns: 1fr;
+  }
+  .selected-time {
+    font-size: 52px;
+  }
+  .conf-line {
+    font-size: 28px;
+  }
+  .conf-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .conf-actions .cta-cream,
+  .conf-actions .cta-outline {
+    width: 100%;
+    min-width: 0;
+  }
+}
